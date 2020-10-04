@@ -1,0 +1,28 @@
+<script type="text/javascript">
+	RED.nodes.registerType('pubsubhub',{
+		category: 'config',
+		icon: "cog.png",
+		defaults: {
+			name: {required:true}
+		},
+		label: function() {
+			return this.name||"Pub Sub Hub";
+		},
+		labelStyle: function() {
+			return "node_label_italic";
+		},
+  		oneditprepare: function() {
+  		}
+	});
+</script>
+<script type="text/x-red" data-template-name="pubsubhub">
+
+	<div class="form-row">
+		<label for="node-config-input-name"><i class="fa fa-tag"></i> Name</label>
+		<input  id="node-config-input-name" type="text" >
+	</div>
+</script>
+
+<script type="text/x-red" data-help-name="pubsubhub">
+	<p>Publish/Subcribe Hub configuration node.  Can have more than one base.</p>
+</script>

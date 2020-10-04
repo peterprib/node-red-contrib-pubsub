@@ -1,0 +1,92 @@
+<script type="text/javascript">
+	/*globals RED */
+	RED.nodes.registerType('subscribe', {
+		category: 'function',
+		color: '#fdeea2',
+		defaults: {
+			name: {value: "subscribe"},
+			hub: {type:"pubsubhub"},
+			topic: {value: "",required:true},
+			pool: {value: ""},
+			clone: {value: true}
+		},
+		inputs: 0,
+		outputs: 1,
+		icon: "file.png",
+		align: 'left',
+		paletteLabel: "subscribe",
+		inputLabels: null,
+		outputLabels: ["Message Out"],
+		label: function () {
+			return this.name || this.paletteLabel;
+		},
+		oneditprepare: function() {
+		}
+	});
+</script>
+
+<script type="text/x-red" data-template-name="subscribe">
+
+	<div class="form-row">
+		<label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
+		<input type="text" id="node-input-name" placeholder="Name">
+	</div>
+
+	<div class="form-row">
+		<label for="node-input-hub"><i class="fa fa-list-ul"></i> Hub</label>
+		<input type="text" id="node-input-hub">
+  	</div>
+
+	<div class="form-row">
+		<label for="node-input-topic"><i class="fa fa-tag"></i> Topic</label>
+		<input type="text" id="node-input-topic" placeholder="Name">
+	</div>
+
+	<div class="form-row">
+		<label for="node-input-pool"><i class="fa fa-tag"></i> Pool</label>
+		<input type="text" id="node-input-pool" placeholder="Name">
+	</div>
+
+	<div class="form-row">
+		<input type="checkbox" id="node-input-clone" style="display: inline-block; width: auto; vertical-align: top;">
+		<label for="node-input-clone" style="width: auto">Clone</label>
+ 	</div>
+
+</script>
+
+<script type="text/x-red" data-help-name="subscribe">
+<p>Consumes published messages for a topic.</p>
+
+<h3>Inputs</h3>
+
+<h3>Outputs</h3>
+	<ol class="node-ports">
+		<li>Standard output
+		   <dl class="message-properties">
+			  <dt>payload <span class="property-type">string</span></dt>
+			  <dd>Payload as per input</dd>
+		   </dl>
+		</li>
+	</ol>
+<h3>Details</h3>
+		   <dl class="message-properties">
+			  <dt>Hub <span class="property-type">hub</span></dt>
+			  <dd>Identifies which hub is used for publishing.</dd>
+			  <dt>Pool <span class="property-type">string</span></dt>
+			  <dd>Pool id where several nodes can consume meassge in round robin.</dd>
+			  <dt>Clone <span class="property-type">boolean</span></dt>
+			  <dd>Message is cloned if message to avoid conflicts with other subscribers</dd>
+		   </dl>
+<p>
+Registers its interest for messages that have a topic or sub topic.
+A topic is broken up into sub topics by a "/" 
+e.g. topic of "abc/def" will consume "abc/def/ghi" but not consume "abc/defghi"
+</p>
+<p>
+It is possible to have more that one node consuming same topic at same time.
+If cloned treat as different messages, if not, can work off same message thus seem and be affected by
+changes by different flow which can not be predicted.
+</p>
+
+</script>
+
