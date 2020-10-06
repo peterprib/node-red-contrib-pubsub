@@ -1,0 +1,32 @@
+[
+    {
+        "id": "a8c95f6b.267d1",
+        "type": "publish",
+        "z": "edf4845f.583398",
+        "name": "publish <topic>",
+        "hub": "8a19145c.3e46e8",
+        "topics": [
+            {
+                "value": "atest/s1",
+                "type": "text"
+            },
+            {
+                "value": "topic",
+                "type": "msg"
+            }
+        ],
+        "x": 380,
+        "y": 200,
+        "wires": [
+            [
+                "2dc456a7.86e91a"
+            ]
+        ]
+    },
+    {
+        "id": "8a19145c.3e46e8",
+        "type": "pubsubhub",
+        "z": "",
+        "name": "test"
+    }
+]
