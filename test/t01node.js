@@ -18,6 +18,7 @@ function testEqual(a,b,done) {  //needed as bug in test-helper
 }
 function testNodeProperties(o) {
 	const n = getNode(o);
+	if(n==null) throw Error("can find node "+o.id);
 	for(let p in o) {
 		n.should.have.property(p, o[p]);
 	}

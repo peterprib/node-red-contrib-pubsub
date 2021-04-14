@@ -3,7 +3,9 @@
 		category: 'config',
 		icon: "cog.png",
 		defaults: {
-			name: {required:true}
+			name: {required:true},
+			hubs: {value:[{host:"localhost",port:1880}],required:true},
+			
 		},
 		label: function() {
 			return this.name||"Pub Sub Hub";
@@ -12,7 +14,28 @@
 			return "node_label_italic";
 		},
   		oneditprepare: function() {
-  		}
+			const node=this;
+			if(node.hubs) node.hubs.forEach(r=>addHub(r.host,r.port));
+			$("#node-input-add-nodes").click(()=>addHub("localhost",1880));
+			function addHub(host,port) {
+	  			let row=$('<tr/>').appendTo($("#node-config-input-nodes-tbody"));
+				let deleteButton = $('<a/>',{href:"#",class:"editor-button editor-button-medium"}).appendTo(row);
+				$('<i/>',{class:"fa fa-remove"}).appendTo(deleteButton);
+				deleteButton.click(function() {
+					$(this).parent().remove();
+				});
+				$('<td/>').append($('<input type="text" size="30" style="width:100%; border:0;" />').attr('value', host)).appendTo(row); // host
+				$('<td/>').append($('<input type="number" size="5" min="0" max="65535" style="width:100%; border:0;" />').attr('value', port)).appendTo(row); // port
+			}
+  		},
+		oneditsave: function() {
+		   	const node=this;
+			node.hubs=[];
+			$('#node-config-input-nodes-tbody tr:gt(0)').each(function () {
+				const inputs=$(this).find("input");
+				node.hubs.push({host:inputs[0].value,port:parseInt(inputs[1].value,10)});
+			});
+		}
 	});
 </script>
 <script type="text/x-red" data-template-name="pubsubhub">
@@ -21,8 +44,29 @@
 		<label for="node-config-input-name"><i class="fa fa-tag"></i> Name</label>
 		<input  id="node-config-input-name" type="text" >
 	</div>
+
+	<div class="form-row node-config-input-nodes-container-row" style="margin-bottom:0px; width:100%; min-width:300px">
+		<label style="vertical-align:top;">
+			<i class="fa fa-list-alt"></i> Nodes <a href="#" class="editor-button editor-button-small" id="node-input-add-nodes" style="margin-top: 4px; margin-left: 103px;"><i class="fa fa-plus"></i> <span>Add</span></a>
+		</label>
+		<div style="width:100%; display: inline-block; background-color:#f3f3f3; border-top:0px solid; border-radius:0 0 0 0; border-bottom:1px solid #ccc;">
+			<table>
+ 			  	<tbody id="node-config-input-nodes-tbody" stype="display: block;  overflow: auto; max-width:400px; max-height: 400px;">
+				<tr style="padding-left:4px; border-bottom: 1px solid black; background: lightblue; position: sticky; top: 0;">
+					<td style="min-width: 12px;">Delete</td>
+					<td style="min-width: 200px; width:90%;">Name</td>
+					<td style="min-width: 60px;">Port</td>
+				</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+
 </script>
 
 <script type="text/x-red" data-help-name="pubsubhub">
-	<p>Publish/Subcribe Hub configuration node.  Can have more than one base.</p>
+	<p>Publish/Subcribe Hub configuration node. Can have more than one base.</p>
+	<p>
+	Nodes allow more than one nodered instance to talk to each other publising the message on thos nodes 
+	</p>
 </script>

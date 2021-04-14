@@ -4,6 +4,8 @@ Provided publish/subscribe frame work with nodered.  This allows for complete in
 Pause/resume facility allows process flows to be bypassed dynamically.
 A message can be processed by multiple flows as clones or as same message.
 
+Publish/subscript can be across multiple node-red instances.  This make node-red highly scalable and allow instances to be tailored for certain processed and at the same time give indpenedence to flows and instances.  Should allow for dynamic system software upgrades without outage.
+
 ------------------------------------------------------------
 
 # Publish
@@ -40,7 +42,6 @@ Note it means messages that would have been processed are are lost unless pooled
 
 # Future Improvements
 
-* connect to other nodered instances
 * Start subscribe in paused state
 * Allow pass thru message to be held back until triggered by a subscription
 
@@ -56,12 +57,17 @@ Run the following command in the root directory of your Node-RED install or via 
 
 # Version
 
+0.1.1 nodes-started to flows-started
+
+0.1.0 Distributed node pub/pub
 
 0.0.2 Initial release
 
 # Author
 
 [Peter Prib][3]
+
+[:heart: Sponsor](https://github.com/sponsors/peterprib)
 
 [1]: http://nodered.org "node-red home page"
 
